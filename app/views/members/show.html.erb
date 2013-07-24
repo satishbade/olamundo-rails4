@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b><%=  t('ui.h1.name') %>:</b>
+  <%= @member.name %>
+</p>
+
+<p>
+  <b><%=  t('ui.h1.relation') %>:</b>
+  <%= @member.relationship %>
+</p>
+
+
+<%= link_to t('ui.action.edit'), edit_member_path(@member) %> |
+<%= link_to t('ui.action.back'), :back %>

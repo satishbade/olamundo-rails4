@@ -1,0 +1,68 @@
+<div class="container">
+  <div class="grid-09" style="margin-left: 36%; margin-top: 5%;">
+    <%= form_for(@member ,:html => {:multipart => true}) do |f|  %>
+        <div class="widget">
+          <div class="widget-header">
+            <span class="icon-article"></span>
+            <h3>Add Member</h3>
+          </div>
+          <div class="widget-content">
+            <div class="form-box-wrapper_login">
+              <div class="form-box">
+                <div class="field-group">
+
+                  <table style="margin-left: 0px" id="field_table">
+                    <tr>
+                      <td>
+                        Avatar
+                      </td>
+                      <td>
+                        <%= f.file_field :avatar, :required => true %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Full Name
+                      </td>
+                      <td>
+                        <%= f.text_field :first_name, :required => true %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Nick Name
+                      </td>
+                      <td>
+                          <%= f.text_field :name, :required => true %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                         Relationship
+                      </td>
+                      <td>
+                        <%= f.select(:relationship, relation)  %>
+                      </td>
+                    </tr>
+                    <tr>
+                    <td colspan="2">
+                  <div class="actions" style="display: inline; margin-left: 50%;">
+                    <span>
+                        <%= f.submit  :class => "buttonstyle_orange",:onclick => "spinner_load();"%>
+                        <%= link_to t('ui.action.back'), root_url, :class => "buttonstyle_orange" %>
+                    </span>
+                  </div>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    <% end %>
+  </div>
+</div>
+
+
+

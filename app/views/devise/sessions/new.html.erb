@@ -1,0 +1,64 @@
+<br><br>
+<% [:notice,  :alert].each do |level| %>
+    <% unless flash[level].blank? %>
+       <span class="sign_msg">
+            <%= content_tag :p, flash[level] %>
+       </span>
+    <% end %>
+<% end %>
+
+
+<div class="container_login">
+<div class="container">
+  <div class="grid-09" style="margin-left: 36.5%;margin-right: auto; margin-top: 10%;">
+
+    <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+        <div class="widget">
+          <div class="widget-header">
+            <span class="icon-article"></span>
+            <h3>Sign in</h3>
+          </div>
+          <div class="widget-content">
+            <div class="form-box-wrapper_login">
+              <div class="form-box">
+                <div class="field-group">
+                  <table style="margin-left: 10px;" id="field_table">
+                    <tr>
+                      <td>
+                        Email
+                      </td>
+                      <td>
+                        <%= f.email_field :email, :autofocus => true %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Password
+                      </td>
+                      <td>
+                        <%= f.password_field :password %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><%= link_to "Forgot Password?", new_user_password_path, :style => "color:#4D90FE;" %> </td>
+                      <td colspan="2">
+                        <div class="actions" style="float:right;">
+                          <%= f.submit t('ui.h1.signin') ,:class=>"buttonstyle_orange" %>
+
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><%= link_to "Activate Account", verify_account_path, :style => "color:#4D90FE;" %> </td>
+                      <td><%= link_to "Resend Verification Code", resend_verification_code_path, :style => "color:#4D90FE;" %> </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    <% end %>
+  </div>
+</div>
+ </div>

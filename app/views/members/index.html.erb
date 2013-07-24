@@ -1,0 +1,25 @@
+<h1><%=  t('ui.h1.member_list') %></h1>
+
+<table>
+  <tr>
+    <th><%= t('ui.h1.name') %></th>
+    <th><%=  t('ui.h1.relation') %></th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @members.each do |member| %>
+  <tr>
+    <td><%= member.name %></td>
+    <td><%= member.relationship %></td>
+    <td><%= link_to t('ui.action.show'), member %></td>
+    <td><%= link_to t('ui.action.edit'), edit_member_path(member) %></td>
+    <td><%= link_to t('ui.action.delete'), member, method: :delete, data: { confirm: t('ui.popup.message') } %></td> <!-- Take string values from en.yml -->
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to t('ui.action.new'), new_member_path %>

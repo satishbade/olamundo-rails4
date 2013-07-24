@@ -1,0 +1,52 @@
+      <%= form_for(@symbol, :html => {:multipart => true}) do |f| %>
+                    <table style="float: right;margin-left:10px;" id="field_table">
+                      <tr>
+                        <td>
+                          Change Image
+                        </td>
+                        <td>
+                          <%= f.file_field :symbol_image %>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                         Symbol Name
+                        </td>
+                        <td>
+                          <%= f.text_field :word %>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <%=   "Symbol Type" %>
+                        </td>
+                        <td>
+                          <%= f.select :symbol_type, ["Symbol", "Picture"] %>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          Sequence:
+                        </td>
+                        <td>
+                          <select name="select_sequence" >
+                            <% @sequence_select.each do |key| %>
+                                <% if @symbol.sequence == key %>
+                                    <option selected="selected"><%= key %></option>
+                                <% else %>
+                                    <option><%= key %></option>
+                                <% end %>
+                            <% end %>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2">
+                          <div class="actions" style="margin-left: 70%;display: inline;">
+                            <%= f.submit t('ui.action.save'), :class => "buttonstyle_orange_small", :onclick => "spinner_load();" %>
+                            <%= link_to t('ui.action.cancel'), :back, :class => "buttonstyle_orange_small" %>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+<% end %>

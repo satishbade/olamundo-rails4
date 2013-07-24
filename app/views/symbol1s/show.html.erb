@@ -1,0 +1,25 @@
+
+
+<div class="main_content" >
+
+  <div class="main_content_header">
+    <b style="margin-left: 10px; margin-top: 10px;"><%= t('ui.h1.symbol') %></b>
+  </div>
+ <% if @symbol.symbol_image.url(:medium).include?("missing") %>
+      <%= image_tag("default-symb.png",:size => "60x60" ) %>
+ <% else %>
+      <%=  image_tag(@symbol.symbol_image.url(:medium)) %>
+ <% end %>
+  <%= best_in_place @symbol, :word %>
+  <%=  link_to "Add Related Symbol" ,new_relatedsymbol_path(:id => @symbol.id) %>
+  <div class="actions">
+  <%=  link_to "Edit"  ,edit_symbol1_path(@symbol) ,:class =>"btn btn-mini btn-info" %>
+  <%= link_to "Destroy" , symbol1_path(@symbol), :method => :delete ,:data => { :confirm => "Are you sure"} ,:class => "btn btn-mini btn-info" %>
+  <%=  link_to "Back"  ,symbol1s_path ,:class =>"btn btn-mini btn-info" %>
+
+    <br/>
+  </div>
+</div>
+
+
+

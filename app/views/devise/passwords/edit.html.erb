@@ -1,0 +1,68 @@
+
+
+
+<div class="container_login">
+  <div class="container">
+    <div class="grid-09" style="margin-left: 36.5%;margin-right: auto; margin-top: 10%;">
+
+      <%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put }) do |f| %>
+          <div class="widget">
+            <div class="widget-header">
+              <span class="icon-article"></span>
+              <h3><%= t('password.change_password')%></h3>
+            </div>
+            <div class="widget-content">
+              <div class="form-box-wrapper_login">
+                <div class="form-box">
+                  <div class="field-group">
+                    <table style="margin-left: 10px;" id="field_table">
+                      <tr><td><%= f.hidden_field :reset_password_token %></td></tr>
+                      <tr>
+                        <td>
+                          New Password
+                        </td>
+                        <td>
+                          <%= f.password_field :password, :autofocus => true %>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                        Confirm new password
+                        </td>
+                        <td>
+                          <%= f.password_field :password_confirmation %>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2">
+                          <div class="actions" style="float: right;">
+                            <%= f.submit t('password.change_my_password')  ,:class=>"buttonstyle_orange" %>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<!-- REVIEW - You can use simple_form_for gem instead of form_for as it has many options for customization --> 
+<%#= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put }) do |f| %>
+  <%#= devise_error_messages! %>
+  <%#= f.hidden_field :reset_password_token %>
+
+  <!--<div><%#= f.label :password, t('password.new_password') %><br />-->
+  <%#= f.password_field :password, :autofocus => true %><!--</div>
+
+  <!--<div><%#= f.label :password_confirmation, t('password.confirm_new_password') %><br />-->
+  <%#= f.password_field :password_confirmation %><!--</div>
+
+  <!--<div><%#= f.submit t('password.change_my_password') %></div>-->
+<!--<%# end %>-->
+
+<%#= render "devise/shared/links" %>

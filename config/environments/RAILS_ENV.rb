@@ -1,0 +1,12 @@
+config.action_mailer.delivery_method = :smtp
+config.action_mailer.smtp_settings = {
+    :address              => "smtp.gmail.com",
+    :port                 => 587,
+    :domain               => 'gmail.com',
+    :user_name            => 'Ola Mundo',
+    #:user_name            => 'your_user_name' like abc@gmail.com,
+    #:password             => 'your_Gmail_password' ,
+    :authentication       => 'plain',
+    :enable_starttls_auto => true  }
+config.action_mailer.perform_deliveries = true
+config.action_mailer.raise_delivery_errors = true

@@ -1,0 +1,29 @@
+<%= form_for(@ipad_devise) do |f| %>
+  <% if @ipad_devise.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@ipad_devise.errors.count, "error") %> prohibited this ipad_devise from being saved:</h2>
+
+      <ul>
+      <% @ipad_devise.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :devise_token %><br />
+    <%= f.text_area :devise_token %>
+  </div>
+  <div class="field">
+    <%= f.label :status %><br />
+    <%= f.text_field :status %>
+  </div>
+  <div class="field">
+    <%= f.label :member_id %><br />
+    <%= f.number_field :member_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

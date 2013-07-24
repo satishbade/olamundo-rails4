@@ -1,0 +1,128 @@
+<div id="myModal" class="reveal-modal">
+  <div class="close-reveal-modal">
+    <a class="popup_a">&#215;</a>
+  </div>
+  <div id="viewcontent0"></div>
+  <div id="viewcontent1"></div>
+</div>
+<br><br>
+<% if notice %>
+    <div class="error_msg_box"><%= notice %></div>
+<% end %>
+
+<%= paginate @family %>
+
+<% if current_user %>
+    <div class="container">
+      <div class="grid-17" style="margin-left: 17%; margin-top: 5%;">
+
+        <div class="widget widget-table">
+          <div class="widget-header">
+            <span class="icon-list"></span>
+
+            <h3 class="icon chart">Family List</h3>
+            <div class="bulk_symbol_bank">
+              <%= link_to t('ui.action.back'), home_index_path, :class => "buttonstyle_orange_small" %>
+            </div>
+
+          </div>
+          <div class="widget-content" style="max-height: 600px; overflow: auto;">
+            <% @family.each do |account| %>
+                <div class="family_member">
+                  <table>
+                    <tr>
+                      <!--<div id="minus" style="float: left;">-</div><div id="plus" style="float: left;">+</div>-->
+                      <th>
+                        <a onclick="click_button(<%= account.id %>)"><h2 style="float: left; text-decoration:underline;cursor: pointer;"><%= account.email %></h2></a>
+                      </th>
+                      <div class="bulk_symbol_bank" style="margin-top: 7px;">
+                        <%= form_for(User.new, :url => password_path(User.new, :confirm => true), :html => {:method => :post}) do |f| %>
+                            <%= link_to "Delete Account", delete_user_path(:account => account.id), :method => :delete, :data => {:confirm => "Are You Sure?"}, :class => "buttonstyle_orange_small" %>
+                            <%#= link_to "Add Member", new_member_path, :class => "buttonstyle_orange_small" %>
+
+                            <% if account.status == "Verified" || account.status == nil %>
+                                <a href="#" data-reveal-id="myModal" onclick="add_member(<%= account.id %>)" class="buttonstyle_orange_small">Add
+                                  Member</a>
+                                <%#= link_to "Resend Password", password_path(account), :method => post, :class => "buttonstyle_orange_small" %>
+                                <%= f.hidden_field :email, :value => account.email %>
+                                <%= f.submit "Resend Password", :class => "buttonstyle_orange_small", :style => "cursor: pointer" %>
+                            <% elsif account.status == "Inactive" %>
+                                <%= link_to "Resend Verification Code", resend_verification_code_path(:email => account.email, :confirm => true), :class => "buttonstyle_orange_small" %>
+                            <% end %>
+                        <% end %>
+                      </div>
+                    </tr>
+                  </table>
+                </div>
+                <% @acc =  account.id %>
+                <div id="collapse<%= account.id %>" style="display: none;">
+
+
+                  <div class="widget-content">
+                    <table class="table table-bordered table-striped">
+                      <thead class="table">
+                      <tr>
+                        <th><%= t('ui.h1.avatar') %></th>
+                        <th><%= t('ui.h1.name') %></th>
+                        <th><%= t('ui.h1.relation') %></th>
+                        <th><%= t('ui.h1.action') %></th>
+                      </tr>
+                      </thead>
+
+                      <tbody>
+                      <% account.members.order(:name).each do |member| %>
+
+                          <tr>
+                            <td style="text-align: center;">
+                              <%#= image_tag member.avatar.url(:small) %>
+                              <a href="#"  data-reveal-id="myModal" onclick="change_image(<%= member.id %>)"><%= image_tag(member.avatar.url(:small)) %></a>
+                            </td>
+                            <td>
+                              <%= best_in_place member, :name, :inner_class => "inner_class_in_place", :type => :input %>
+                            </td>
+                            <td>
+                              <%= best_in_place member, :relationship, :type => :input, :inner_class => "inner_class_in_place" %>
+                            </td>
+                            <td>
+                              <%= link_to t('ui.action.delete'), delete_family_member_path(:family_member => member), :data => {:confirm => t('ui.popup.message'), :method => :delete} %>
+                            </td>
+                          </tr>
+                          </tbody>
+                      <% end %>
+                      </table>
+                  </div>
+                </div>
+          <% end %>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+<% else %>
+    <div class="olamundo_image"></div>
+<% end %>
+
+
+<script type="text/javascript">
+    function change_image(id) {
+        jQuery("#viewcontent1").css("display", "none");
+        jQuery("#viewcontent0").load("/edit_family_member/" + id);
+        //jQuery("#viewcontent0").css("display", "block");
+    }
+
+    function add_member(id) {
+        jQuery("#viewcontent0").css("display", "none");
+        jQuery("#viewcontent1").load("/add_member/" + id);
+        //jQuery("#viewcontent1").css("display", "block");
+    }
+//    $(document).ready(function () {
+//      $('collapse').hide();
+//    });
+
+    function click_button(number) {
+        $("#collapse" + number).slideToggle();
+    }
+
+
+</script>

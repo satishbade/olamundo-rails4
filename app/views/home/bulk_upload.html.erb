@@ -1,0 +1,39 @@
+
+<div class="container" style="margin-left: 30%; margin-top: 7%;">
+<div class="grid-08">
+<%= form_for :bulk_upload, :url=>{:controller=>"home", :action=>"bulk_upload"}, :html => {:multipart => true} do |f| %>
+<div class="widget" >
+  <div class="widget-header"><span class="icon-article"></span><h3>Bulk Upload</h3></div>
+  <div class="widget-content">
+    <div class="form-box-wrapper_sign">
+      <div class="form-box">
+        <div class="field-group">
+          <table style="margin-left: 10px;" id="field_table">
+            <tbody>
+             <tr>
+               <td>Select an Excel File :</td>
+               <td><%= f.file_field :excel_file, :name =>"excel" -%> </td>
+             </tr>
+            <tr>
+              <td>Select Categories:</td>
+              <td><%= f.file_field :file, :name => "files[]", :mozdirectory => "", :webkitdirectory => "", :directory=> "" %></td>
+            </tr>
+            <tr>
+              <td>Select Symbols:</td>
+              <td><%= f.file_field :file, :name => "symbols[]", :mozdirectory => "", :webkitdirectory => "", :directory=> ""  %> <br></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <div class="actions" style="margin-left: 80%;"><%= f.submit "Upload", :class => "buttonstyle_orange" %></div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>
+  </div>
+</div>

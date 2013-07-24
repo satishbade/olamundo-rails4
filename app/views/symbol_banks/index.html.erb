@@ -1,0 +1,66 @@
+<div class="widget_symbol_bank" style="width: 84%;margin-left: 8%; margin-right: 10%; margin-top: 10%;">
+  <div class="widget-header">
+    <span class="icon-article"></span>
+
+    <h3>Symbol Bank</h3>
+
+    <div class="bulk_symbol_bank">
+      <%= link_to "Upload To Symbol Bank", new_symbol_bank_path, :class => "buttonstyle_orange_small" %>
+      <%= link_to t('ui.action.back'), symbol1s_path(:id => session[:cat_id]), :class => "buttonstyle_orange_small" %>
+      <a class="buttonstyle_orange_small show_hide">Edit</a>
+    </div>
+  </div>
+</div>
+
+<%= form_tag delete_symbols_from_bank_symbol_banks_path, :method => 'delete' do %>
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+  <div class="symbol_bank_content">
+    <div class="drag_div" id="sortable">
+      <%= paginate @symbol_banks %>
+      <% @symbol_banks.each do |symbol_bank| %>
+          <div class="symbol_img_list" id="no_<%= symbol_bank.id %>">
+            <%#= link_to (image_tag("delete1.jpg", :size => "10x10")), symbol1_path(sys), :method => :delete, :title => "Delete Symbol - #{sys.word}", :data => {:confirm => "Are You Sure?"}, :style => "float:right;margin-right:2px;", :class => "slidingDiv", :onclick => "this.show()" %>
+            <%#= check_box_tag "sys_ids[]", sys.id, false, :style => "float:right;margin-right:2px;", :class => "slidingDiv" %>
+            <%= check_box_tag "sys_ids[]", symbol_bank.id, false, :style => "float:right;margin-right:2px;", :class => "slidingDiv" %>
+            <div class="symbol_img_line">
+              <div>
+                <span>
+                  <%= image_tag symbol_bank.symbol_image.url(:medium), :class => "img_align" %>
+                </span>
+
+                <div class="symbol_font" style="z-index: 1;"> <%= best_in_place symbol_bank, :symbol_name, :inner_class => "inner_class_in_place", :type => :input %> </div>
+              </div>
+            </div>
+          </div>
+      <% end %>
+      <%= submit_tag "Delete", :data => {:confirm => "Are You Sure?"}, :style => "margin-left: 20px; margin-top: 50px;", :class => "bulk_delete_btn slidingDiv" %>
+      <%= paginate @symbol_banks %>
+    </div>
+  </div>
+</table>
+<% end %>
+
+<style type="text/css">
+    .show_hide {
+        display: none;
+    }
+
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".slidingDiv").hide();
+        $(".show_hide").show();
+
+        $('.show_hide').click(function () {
+            $(".slidingDiv").slideToggle();
+        });
+    });
+</script>
+

@@ -1,0 +1,134 @@
+<br><br>
+<% if notice %>
+    <div class="error_msg_box"><%= notice %></div>
+<% end %>
+
+<% if current_user %>
+    <div class="container">
+      <div class="grid-19" style="margin-left: 13%; margin-top: 5%;">
+
+        <%= paginate @user_account %>
+        <div class="widget widget-table">
+          <div class="widget-header">
+            <span class="icon-list"></span>
+
+            <h3 class="icon chart">Message Analysis</h3>
+            <div class="bulk_symbol_bank">
+              <%= link_to "Send Report To Email", send_log_mail_path, :class => "buttonstyle_orange_small" %>
+              <%= link_to t('ui.action.back'), home_index_path, :class => "buttonstyle_orange_small" %>
+            </div>
+
+          </div>
+          <div class="widget-content" style="max-height: 600px; overflow: auto;">
+
+            <!--<p>Messages sent on Date: <input type="text" id="datepicker" onchange="date_select(this.value);"/></p>-->
+            <% @user_account.each do |account| %>
+                <div class="family_member">
+                  <table>
+                    <tr>
+                      <!--<div id="minus" style="float: left;">-</div><div id="plus" style="float: left;">+</div>-->
+                      <th>
+                        <a onclick="click_button(<%= account.id %>)"><h2 style="float: left; text-decoration:underline;cursor: pointer;"><%= account.email %></h2></a>
+                      </th>
+                    </tr>
+                  </table>
+                </div>
+                <% @acc =  account.id %>
+                <div id="collapse<%= account.id %>" style="display: none;">
+
+
+                  <div class="widget-content">
+                    <table class="table table-bordered table-striped">
+                      <thead class="table">
+                      <tr>
+                        <th><%= "Name" %></th>
+                        <th><%= "Remote Messages Sent" %></th>
+                        <th><%= "Remote Messages Received" %></th>
+                        <th><%= "Local Messages Sent" %></th>
+                        <th><%= "Total" %></th>
+                        <th><%= "Remote Messages Sent Today" %></th>
+                        <th><%= "Remote Messages Received Today" %></th>
+                        <th><%= "Local Messages Sent Today" %></th>
+                      </tr>
+                      </thead>
+
+                      <tbody>
+                      <% account.members.order("name asc").each do |member| %>
+
+                          <tr>
+                            <td style="text-align: center;">
+                              <%= member.name %>
+                            </td>
+
+                            <% remote_messages_sent = Message.where("message_from = ? AND message_to != ? AND message_type = ?" , member.name , member.name , "sent").count %>
+                            <td style="text-align: center;">
+                              <%= remote_messages_sent %>
+                            </td>
+
+                            <% remote_messages_received = Message.where("message_to = ? AND message_from != ? AND message_type = ?" , member.name , member.name , "received").count %>
+                            <td>
+                              <%= remote_messages_received %>
+                            </td>
+
+                            <% local_messages_sent = Message.where("message_from = ? AND message_to = ? AND message_type = ?" , member.name , member.name , "sent").count %>
+                            <td>
+                              <%= local_messages_sent %>
+                            </td>
+
+                            <% total = remote_messages_sent + remote_messages_received + local_messages_sent %>
+                            <td>
+                              <%= total %>
+                            </td>
+
+                            <% remote_messages_sent_dated = Message.where("message_from = ? AND message_to != ? AND message_type = ? AND created_at > ?",member.name , member.name ,"sent" , 1.day.ago).count %>
+                            <td>
+                              <%= remote_messages_sent_dated %>
+                            </td>
+
+                            <% remote_messages_received_dated = Message.where("message_from = ? AND message_to != ? AND message_type = ? AND created_at > ? " , member.name , member.name , "received" , 1.day.ago).count %>
+                            <td>
+                              <%= remote_messages_received_dated %>
+                            </td>
+
+                            <% local_messages_sent_dated = Message.where("message_from = ? AND message_to = ? AND message_type = ? AND created_at > ?", member.name , member.name ,"sent" , 1.day.ago).count %>
+                            <td>
+                              <%= local_messages_sent_dated %>
+                            </td>
+                          </tr>
+                          </tbody>
+                      <% end %>
+                      </table>
+                  </div>
+                </div>
+            <% end %>
+
+          </div>
+        </div>
+        <%= paginate @user_account %>
+      </div>
+
+    </div>
+
+<% else %>
+    <div class="olamundo_image"></div>
+<% end %>
+
+
+<script type="text/javascript">
+
+    function click_button(number) {
+        $("#collapse" + number).slideToggle();
+    }
+
+//    $(function() {
+//        $( "#datepicker").datepicker();
+//    });
+//
+//    function date_select(date) {
+//        $.ajax({url:'<%= url_for account_messages_path %>',
+//            data:{"selected_date":date},
+//            dataType:'script'})
+//    }
+
+</script>
+

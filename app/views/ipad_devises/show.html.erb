@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Devise token:</b>
+  <%= @ipad_devise.devise_token %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%= @ipad_devise.status %>
+</p>
+
+<p>
+  <b>Member:</b>
+  <%= @ipad_devise.member_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_ipad_devise_path(@ipad_devise) %> |
+<%= link_to 'Back', ipad_devises_path %>

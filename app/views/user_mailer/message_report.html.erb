@@ -1,0 +1,89 @@
+<html>
+
+<%= "Ola," %> <br/> <br/>
+
+
+<%= "Below are the message statistics for all the accounts." %> <br/> <br/>
+
+<div>
+  <table style="border: 1px solid;">
+    <thead>
+    <tr>
+      <th style="border: 1px solid;"><%= "Name" %></th>
+      <th style="border: 1px solid;"><%= "Remote Messages Sent" %></th>
+      <th style="border: 1px solid;"><%= "Remote Messages Received" %></th>
+      <th style="border: 1px solid;"><%= "Local Messages Sent" %></th>
+      <th style="border: 1px solid;"><%= "Total" %></th>
+      <th style="border: 1px solid;"><%= "Remote Messages Sent Today" %></th>
+      <th style="border: 1px solid;"><%= "Remote Messages Received Today" %></th>
+      <th style="border: 1px solid;"><%= "Local Messages Sent Today" %></th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% User.where("status = ?", "Verified").order("email asc").all.each do |account| %>
+        <table>
+          <th>
+            <div style="margin-top: 10px; font-size: medium; font-family: 'Oxygen, sans-serif'; background-color: #d3d3d3; float: left;">
+              <%= account.email %>
+            </div>
+          </th>
+        </table>
+
+        <% account.members.order("name asc").each do |member| %>
+
+            <tr style="text-align: center;">
+              <td>
+                <%= member.name %>
+              </td>
+
+              <% remote_messages_sent = Message.where("message_from = ? AND message_to != ? AND message_type = ?" , member.name , member.name , "sent").count %>
+              <td>
+                <%= remote_messages_sent %>
+              </td>
+
+              <% remote_messages_received = Message.where("message_to = ? AND message_from != ? AND message_type = ?" , member.name , member.name , "received").count %>
+              <td>
+                <%= remote_messages_received %>
+              </td>
+
+              <% local_messages_sent = Message.where("message_from = ? AND message_to = ? AND message_type = ?" , member.name , member.name , "sent").count %>
+              <td>
+                <%= local_messages_sent %>
+              </td>
+
+              <% total = remote_messages_sent + remote_messages_received + local_messages_sent %>
+              <td>
+                <%= total %>
+              </td>
+
+              <% remote_messages_sent_dated = Message.where("message_from = ? AND message_to != ? AND message_type = ? AND created_at > ?",member.name , member.name ,"sent" , 1.day.ago).count %>
+              <td>
+                <%= remote_messages_sent_dated %>
+              </td>
+
+              <% remote_messages_received_dated = Message.where("message_from = ? AND message_to != ? AND message_type = ? AND created_at > ? " , member.name , member.name , "received" , 1.day.ago).count %>
+              <td>
+                <%= remote_messages_received_dated %>
+              </td>
+
+              <% local_messages_sent_dated = Message.where("message_from = ? AND message_to = ? AND message_type = ? AND created_at > ?", member.name , member.name ,"sent" , 1.day.ago).count %>
+              <td>
+                <%= local_messages_sent_dated %>
+              </td>
+            </tr>
+            </tbody>
+        <% end %>
+    <% end %>
+    </table>
+</div>
+<br/> <br/>
+
+<%= "Ola Mundo Team" %>  <br/> <br/>
+
+
+<h5 style="color: rgb(153, 153, 153);"><%= "Please do not reply to this email." %></h5>
+<h5 style="color: rgb(153, 153, 153);"><%= "This email has been sent to you from Ola Mundo regarding Message Report." %></h5>
+
+
+</html>

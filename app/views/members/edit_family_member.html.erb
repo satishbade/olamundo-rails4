@@ -1,0 +1,44 @@
+<div class="container">
+  <div style="width: 100%; margin-top: 5%;">
+    <%= form_for(@family_member,:html => {:multipart => true}) do |f|  %>
+        <div class="widget">
+          <div class="widget-header">
+            <span class="icon-article"></span>
+            <h3>Edit Image</h3>
+          </div>
+          <div class="widget-content">
+            <div class="form-box-wrapper_login">
+              <div class="form-box">
+                <div class="field-group">
+
+                  <table style="margin-left: 10px" id="field_table">
+                    <tr>
+                      <td>
+                        Change Image
+                      </td>
+                      <td>
+                        <%= f.file_field :avatar %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">
+                        <div class="actions" style="display: inline; margin-left: 47%;">
+                            <span>
+                                <%= f.submit :class => "buttonstyle_orange", :onclick => "spinner_load();" %>
+                            </span>
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    <% end %>
+  </div>
+</div>
+
+
+<%#= render 'form' %>
+

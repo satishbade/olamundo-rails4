@@ -1,0 +1,90 @@
+<div class="container pop_align">
+  <div class="grid-09"  >
+    <%= form_for(@symbol,  :html => {:multipart => true}) do |f|  %>
+        <div class="widget">
+          <div class="widget-header">
+            <span class="icon-article"></span>
+            <h3>Add Symbol</h3>
+          </div>
+          <div class="widget-content">
+            <div class="form-box-wrapper_login">
+              <div class="form-box">
+
+                  <div>
+                    <% if session[:cat_id] %>
+
+                    <div style="float: left;width: auto;" >
+                      <% if Category.find(session[:cat_id]).category_image.url(:medium).include?("missing") %>
+                          <%= image_tag("default-symb.png", :size => "80x80") %>
+                      <%else%>
+                          <% if Category.find(session[:cat_id]).background_color.to_s != "" %>
+                              <%=  image_tag Category.find(session[:cat_id]).category_image.url(:medium),:size => "80x80",:style => "background-color:#"+Category.find(session[:cat_id]).background_color+"" %>
+                          <%else%>
+                              <%=  image_tag Category.find(session[:cat_id]).category_image.url(:medium),:size => "80x80",:style => "background-color:#"+colors[ session[:no].to_i]+"" %>
+                          <%end%>
+                      <%end%>
+                    </div>
+                    <% end %>
+                    <div  class="cat_name_font" style="clear: left;">
+                      <%= Category.find(session[:cat_id]).category_name  %>
+                    </div>
+                  </div>
+                    <div class="field-group">
+                      <br/>
+
+                  <table style="margin-left: 10px;padding-top: .5cm;" id="field_table">
+                    <tr>
+                      <td>
+                        <%= f.label "Icon" %>
+                      </td>
+                      <td>
+                        <%= f.file_field :symbol_image %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <%= f.label "Text" %>
+                      </td>
+                      <td>
+                        <%= f.text_field :word %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <%=  "Symbol Type" %>
+                      </td>
+                      <td>
+                        <%= f.select :symbol_type, ["Symbol", "Picture"] %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                       <%= f.label "Sequence:" %>
+                      </td>
+                      <td>
+                        <select name="select_sequence" >
+                          <option selected="selected"><%= @seq_count %>
+                            <% @sequence_select.each do |key| %>
+                              <option><%= key %></option>
+                          <% end %>
+                        </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">
+                        <div class="actions" style="margin-left: 60%;display: inline;">
+                          <%= f.submit t('ui.action.save'), :class=>"buttonstyle_orange",:onclick => "spinner_load();"%>
+                          <%= link_to t('ui.action.cancel'), :back ,:class => "buttonstyle_orange" %>
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    <% end %>
+  </div>
+</div>
+</div>

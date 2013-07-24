@@ -1,0 +1,68 @@
+<script>
+    function update_symbol_name(symbol_bank_id, symbol_name) {
+        $.ajax({url:'<%= url_for update_symbol_name_symbol_banks_path %>', type: 'PUT',
+            data:{"symbol_bank_id":symbol_bank_id, "symbol_name":symbol_name},
+            dataType:'script'})
+    }
+</script>
+<div class="container pop_align">
+  <div class="grid-11" style="margin-left: 27%; margin-top: 5%;">
+    <div class="widget">
+      <div class="widget-header">
+        <span class="icon-article"></span>
+
+        <h3>Add Symbol Details</h3>
+      </div>
+      <div class="widget-content">
+        <div class="form-box-wrapper_login">
+          <div class="form-box">
+            <div>
+              <%= button_to "Cancel", cancel_symbols_saving_symbol_banks_path, :method => :delete, :class => "buttonstyle_orange_small", :title => "Cancel Saving", :style => "float:right; margin-right:24px;", :onclick => "spinner_load();"%>
+              <%= button_to "Save", symbol_banks_path, :method => 'get', :class => "buttonstyle_orange_small", :title => "Save Image Details", :style => "float:right; margin-right:14px;" %>
+            </div>
+            <div class="field-group" style="width:100%; max-height: 555px; overflow:auto;">
+              <table id="field_table">
+                <thead style="text-align: center;">
+                <td>
+                  <%= "Image" %>
+                </td>
+                <td>
+                  <%= "Text" %>
+                </td>
+
+                <td>
+                  <%= "Delete" %>
+                </td>
+                </thead>
+
+                <tbody>
+                <% if session[:new_symbols] != nil %>
+                    <% session[:new_symbols].each do |f| %>
+                        <% @symbol_bank_new = SymbolBank.find(f) %>
+                        <tr>
+                          <td style="text-align: center;">
+                            <%= image_tag @symbol_bank_new.symbol_image.url(:medium), :class => "img_align" %> <br>
+                          </td>
+
+                          <td style="text-align: center;">
+                            <%= text_field_tag @symbol_bank_new.id, @symbol_bank_new.symbol_name, :style => "width: 100px;", :onchange => "update_symbol_name(this.name,this.value);" %>
+                          </td>
+
+                          <td style="text-align: center;padding-top: 45px;">
+                            <%= link_to (image_tag("delete1.jpg", :size => "20x20")), delete_symbols_from_bank_symbol_banks_path(:symbol_id => @symbol_bank_new.id), :method => :delete, :title => "Delete Symbol", :data => {:confirm => "Are You Sure?"}, :onclick => "spinner_load();" %>
+                            <br/><br/>
+                          </td>
+
+                        </tr>
+                    <% end %>
+                <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

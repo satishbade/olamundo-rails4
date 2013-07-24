@@ -1,0 +1,30 @@
+<div id='cssmenu'>
+  <div class="logo">
+    <%= link_to image_tag("Ola_mundo_logo.png", :alt => "test image", :height => 38, :width => 101), root_path %>
+  </div>
+  <ul class="lab-login_name">
+    <% if current_user && current_user.members.count > 0 %>
+        <% member = Member.where(:user_id => current_user.id).order("id").first %>
+        <li class='has-sub last'><a href='#'><span><%= " #{member.name}" %></span>&nbsp;&nbsp;<%= image_tag "downarrow.png",:style =>"padding-left:15x" , :size => "10x10" %></a>
+          <ul>
+            <li><span><%= link_to 'Home', root_url%></span></li>
+            <!--<li><span><%#= link_to t('ui.h1.bulk_upload'), upload_path %></span></li>-->
+            <li><span><%= link_to "Bulk Upload", bulk_upload_symbols_path %></span></li>
+            <li><span><%= link_to "Symbol Bank", symbol_banks_path %></span></li>
+            <li><span><%= link_to t('ui.h1.symbols'), symbol1s_path(:id => session[:cat_id]) %></span></li>
+            <li><span><%= link_to "Family List", family_lists_path %></span></li>
+            <li><span><%= link_to "Message Analysis", account_messages_path %></span></li>
+            <li class='last'><span><%= link_to t('ui.h1.logout'), sign_out_path %></span></li>
+          </ul>
+        </li>
+        <%= image_tag member.avatar.url(:medium), :size => "25x25", :style => "float: right;margin-right:-12px; margin-top: -28px;" %>
+    <% else %>
+        <div class="actions btn-login">
+         <span style="color: #fff;font-family: 'Oxygen', sans-serif;"><%= t('ui.h1.already_user') %>  </span>
+          <%= link_to t('ui.h1.signin'), sign_in_path, :class => "buttonstyle" %>          |
+          <%= link_to t('ui.h1.signup'), sign_up_path, :class => "buttonstyle" %>
+        </div>
+    <% end %>
+  </ul>
+</div>
+

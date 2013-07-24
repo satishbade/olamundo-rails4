@@ -1,0 +1,61 @@
+
+<div class="container pop_align">
+  <div class="grid-09"  >
+    <%= form_for(@relatedsymbol) do |f| %>
+        <div class="widget">
+          <div class="widget-header" style="padding-left:5%;">
+            <h3>Add Related symbol</h3>
+          </div>
+          <div class="widget-content">
+            <div class="form-box-wrapper_login">
+              <div class="form-box">
+                  <div class="field-group">
+
+                   <%= f.hidden_field :symbol1_id, :value => params[:id] %>
+                    <table style="margin-left: 10px;" id="field_table">
+                         <tr>
+                           <td>
+                             <%= "Icon:" %>
+                           </td>
+                           <td>
+                             <%= f.file_field :symbol_image %>
+                           </td>
+                         </tr>
+                         <tr>
+                           <td>
+                             <%= "Text:" %>
+                           </td>
+                           <td>
+                             <%= f.text_field :symbol_text, :required => true %>
+                           </td>
+                         </tr>
+                          <tr>
+                           <td>
+                           <%= f.label "Sequence:" %>
+                             </td>
+                            <td>
+                            <select name="select_sequence" >
+                             <option selected="selected"><%= @seq_count %>
+                             <% @sequence_select.each do |key| %>
+                             <option><%= key %></option>
+                              <% end %>
+                              </select>
+                             </td>
+                            </tr>
+                         <tr>
+                           <td colspan="2">
+                             <div class="actions" style="margin-left: 53%;">
+                               <%= f.submit "Save", :class => "buttonstyle_orange", :onclick => "spinner_load();" %>
+                               <%= link_to t('ui.action.cancel'), :back ,:class => "buttonstyle_orange" %>
+                             </div>
+                           </td>
+                         </tr>
+                       </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,84 @@
+
+<div class="container pop_align" >
+  <div class="grid-026"  >
+    <%= form_for(@category , :html => {:multipart => true}) do |f|  %>
+        <div class="widget">
+          <div class="widget-header">
+            <span class="icon-article"></span>
+            <h3>Add Category</h3>
+          </div>
+          <div class="widget-content">
+            <div class="form-box-wrapper_login">
+              <div class="form-box">
+                <div class="field-group">
+
+                  <table style="margin-left: 10px;" id="field_table">
+                    <tr>
+                      <td>
+                        <%= f.label t('ui.h1.icon') %>
+                      </td>
+                      <td>
+                        <%= f.file_field :category_image %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <%= f.label :category_name %>
+
+                      </td>
+                      <td>
+                        <%= f.text_field :category_name %>
+                      </td>
+
+                    </tr>
+                    <tr>
+                      <td>
+                        <%= f.label :background_color %>
+                      </td>
+                      <td>
+                        <%= f.text_field :background_color,:class => "Multiple" %>
+                        <!--<input class="Multiple" type="text" value="fda0f7" />-->
+                        <!--:style =>"background-color:"+@category.background_color+""-->
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <%= f.label :default_skb %>
+                      </td>
+                      <td>
+                        <%= f.label "Yes" %>
+                        <%= f.radio_button :default_skb, true %>
+                        <%= f.label "No" %>
+                        <%= f.radio_button :default_skb, false, :checked => true %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <%= f.label :sequence %></label>:
+                      </td>
+                      <td>
+                        <select name="select_sequence" >
+                          <option selected="selected"><%= @new_sequence%>
+                          <% @sequence_select.each do |key| %>
+                          <option><%= key %></option>
+                          <% end %>
+                        </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">
+                        <div class="actions" style="margin-left: 55%;">
+                          <%= f.submit t('ui.action.save'),:class=>"buttonstyle_orange",:onclick => "spinner_load();" %>
+                          <%= link_to t('ui.action.cancel'), :back ,:class => "buttonstyle_orange" %>
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    <% end %>
+  </div>
+</div>

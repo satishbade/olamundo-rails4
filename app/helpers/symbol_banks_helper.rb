@@ -1,0 +1,2 @@
+module SymbolBanksHelper
+end

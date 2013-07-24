@@ -1,0 +1,70 @@
+<% if flash.count > 0 %>
+    <%- flash.each do |name, msg| -%>
+        <div class="error_msg_box">
+          <%#= content_tag :div, msg, :id => "flash_#{name}" if msg.is_a?(String)  %>
+          <%= content_tag :div, msg, :id => "flash_#{name}" if msg.include?("Invalid email or password.")  %> </div>
+    <%- end -%>
+<%end%>
+
+<div class="container">
+  <div class="grid-08" style="margin-left: 30%; margin-top: 7%;">
+    <%#= form_for(resource, :as => resource_name,:validate =>true, :url => registration_path(resource_name)) do |f| %>
+    <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+        <div class="widget">
+          <div class="widget-header">
+            <span class="icon-article"></span>
+            <h3>Signup</h3>
+          </div>
+          <div class="widget-content">
+            <div class="form-box-wrapper_sign">
+                <div class="form-box">
+                    <div class="field-group">
+
+                      <table style="margin-left: 10px;" id="field_table">
+                        <tr>
+                          <td>
+                            Email
+                          </td>
+                          <td>
+                            <%= f.email_field :email, :autofocus => true, :required => true %>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td>
+                            Password
+                          </td>
+                          <td>
+                            <%= f.password_field :password, :required => true %>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td>
+                            Password Confirmation
+                          </td>
+                          <td>
+                            <%= f.password_field :password_confirmation, :required => true %>
+                          </td>
+                        </tr>
+
+                        <%= f.fields_for :members do |builder| %>
+                            <%= render "devise/registrations/memberFields", :f => builder %>
+                        <% end %>
+
+                        <tr>
+                          <td colspan="2">
+                            <div class="actions" style="margin-left: 80%;">
+                              <%= f.submit "SignUp" ,:class=>"buttonstyle_orange" %>
+                            </div>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+    <% end %>
+  </div>
+</div>

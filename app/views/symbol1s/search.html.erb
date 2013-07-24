@@ -1,0 +1,66 @@
+
+
+
+   <br/>
+
+ <% if @symbol1s %>
+
+
+
+    <div class="container" xmlns="http://www.w3.org/1999/html">
+      <div class="grid-12" style="margin-left: 28%; margin-top: 5%;">
+        <div class="widget">
+          <div class="widget-header">
+            <span class="icon-article"></span>
+            <h3>Search result page</h3>
+            <div style="float: right;padding:0px 25px 10px 0;">
+              <%#= link_to t('ui.action.back'), symbol1s_path(:id => session[:cat_id]), :class => "buttonstyle_orange_small" %>
+              <%= link_to t('ui.action.back'), symbol1s_path, :class => "buttonstyle_orange_small" %>
+            </div>
+          </div>
+
+
+
+
+        <table>
+            <tr><br/></tr>
+          <tr>
+            <% if session[:cat_id] %>
+             <!--<td> <span class="symbol_header">  Category : <%#= Category.find(session[:cat_id]).category_name %> </span> </td>-->
+            <% end %>
+          </tr>
+          <tr><td> <br/></td></tr>
+            <% @symbol1s.each do |sym| %>
+              <tr>
+                <td style="padding-bottom: 15px;">
+                  <span class="symbol_header">  Category : <%= Category.find(sym.category_id).category_name %> </span>
+                </td>
+
+              </tr>
+
+               <tr style="float:left;text-align: center; margin-left: 26%; margin-bottom: 15px;">
+                 <td> <div>
+                        <% if sym.symbol_type == "Picture" %>
+                       <%= image_tag sym.symbol_image.url(:medium) ,:class => "search_edit_circular"%> <br/>
+                        <% else %>
+                          <%= image_tag sym.symbol_image.url(:medium) %> <br/>
+                        <% end %>
+                          <span  class="cat_name_font">   <%=  sym.word %> </span> </div>
+                     </td>
+
+                     <td style="padding-left: 50%;">
+                          <%= link_to 'Edit', new_relatedsymbol_path(:id => sym.id,:word => sym.word), :class => "buttonstyle_orange_small" %>
+                     </td>
+               </tr>
+
+            <% end %>
+        </table>
+        </div>
+      </div>
+    </div>
+
+ <% else %>
+     no result found
+ <% end %>
+
+

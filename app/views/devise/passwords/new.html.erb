@@ -1,0 +1,45 @@
+
+
+<div class="container_login">
+  <div class="container">
+    <div class="grid-09" style="margin-left: 36.5%;margin-right: auto; margin-top: 10%;">
+        <%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f| %>
+          <div class="widget">
+            <div class="widget-header">
+              <span class="icon-article"></span>
+              <h3><%= t('password.forgot_password')%></h3>
+            </div>
+        <%#= devise_error_messages! %>
+            <div class="widget-content">
+              <div class="form-box-wrapper_login">
+                <div class="form-box">
+                  <div class="field-group">
+                    <table style="margin-left: 10px;" id="field_table">
+                      <tr>
+                        <td>
+                          Email
+                        </td>
+                        <td>
+                          <%= f.email_field :email, :autofocus => true %>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2">
+                          <div class="actions" style="float: right;">
+                            <%= f.submit t('ui.h1.send_reset_password'),:class=>"buttonstyle_orange" %>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
+<%#= render "devise/shared/links" %>

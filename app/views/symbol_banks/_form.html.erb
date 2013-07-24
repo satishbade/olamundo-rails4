@@ -1,0 +1,54 @@
+<%= form_for @symbol_bank, :url => symbol_banks_path, :html => {:multipart => true} do |f| %>
+  <!--<%# if @symbol_bank.errors.any? %>-->
+    <!--<div id="error_explanation">-->
+      <!--<h2><%#= pluralize(@symbol_bank.errors.count, "error") %> prohibited this symbol_bank from being saved:</h2>-->
+
+      <!--<ul>-->
+      <!--<%# @symbol_bank.errors.full_messages.each do |msg| %>-->
+        <!--<li><%#= msg %></li>-->
+      <!--<%# end %>-->
+      <!--</ul>-->
+    <!--</div>-->
+  <!--<%# end %>-->
+
+  <!--<div class="actions">-->
+    <!--<%#= f.submit %>-->
+  <!--</div>-->
+
+
+    <div class="container pop_align">
+      <div class="grid-18" style="margin-left: 14%; margin-right: 10%; margin-top: 5%;">
+        <div class="widget">
+          <div class="widget-header">
+            <span class="icon-article"></span>
+
+            <h3>Add Symbols To Symbol Bank</h3>
+
+            <div class="bulk_back">
+              <%= link_to t('ui.action.back'), symbol_banks_path, :class => "buttonstyle_orange_small" %>
+            </div>
+          </div>
+          <div class="widget-content">
+            <div class="form-box-wrapper_login">
+              <div class="form-box">
+                <div class="field-group">
+                  <table style="margin-left: 10px;">
+                    <tbody>
+                    <tr>
+                      <td>Upload Symbols:</td>
+                      <td><%= f.file_field :symbol_image, :multiple => true %> <br></td>
+                      <td><%#= f.file_field :file, :name => "symbols[]", :mozdirectory => "", :webkitdirectory => "", :directory=> ""  %>
+                        <br></td>
+                      <td><%= f.submit "Upload", :class => "buttonstyle_orange", :onclick => "spinner_load();" %></td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<% end %>

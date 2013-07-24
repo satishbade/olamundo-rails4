@@ -1,0 +1,5 @@
+<p><%= t('ui.h1.welcome') %> <%= @resource.email %>!</p>
+
+<p><%= t('ui.h1.confirm_account_via_email') %></p>
+
+<p><%= link_to t('confirmation.confirm_account'), confirmation_url(@resource, :confirmation_token => @resource.confirmation_token) %></p>

@@ -1,0 +1,302 @@
+<div id="myModal" class="reveal-modal">
+  <div class="close-reveal-modal">
+    <a class="popup_a">&#215;</a>
+  </div>
+  <div id="viewcontent0"></div>
+  <div id="viewcontent"></div>
+  <div id="viewcontent1"></div>
+</div>
+
+<div class="symbol_button cat_select_name">
+  <% if session[:cat_id] %>
+      <span class="symbol_header">Category : <%= Category.find(session[:cat_id]).category_name %> </span>
+  <% end %>
+  <div>
+
+    <%= form_tag symbol1s_path, :method => 'get' do %>
+
+        <div class="symbol_upload_btn">
+          <a href="#" style="margin-right: 5%;" data-reveal-id="myModal" onclick="add_category()" class="bulk_upload_btn">
+            Add
+            Category </a>
+          <% if session[:cat_id] %>
+              <a id="<%= session[:cat_id] %>" class="bulk_upload_btn" href="#" data-reveal-id="myModal" onclick="edit_category(this.id)">
+                Edit Category </a>
+          <% end %>
+          <span style="display: inline;">
+              <%= text_field_tag :search, params[:search], :class => "search symbol_search", :required => true, :placeholder => "Type Symbol Name" %>
+            <%= image_submit_tag("search.jpg", :class => "search_img", :title => "Search Symbols") %>
+          </span>
+        </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="list_carousel hor-slider">
+  <div id="prev2" class="prevs"><%= image_tag "back.png", :size => "35x35" %></div>
+  <div style="width:95%;margin-left: auto;margin-right: auto;">
+    <ul id="foo2" style="width:95%;margin-left: auto;margin-right: auto;display: list-item;">
+      <% no = 0 %>
+
+      <% @category_page_all.each.with_index do |category, index| %>
+          <% if no == 28 %>
+              <% no = 0 %>
+          <% end %>
+          <% if category.category_image.url(:medium).include?("missing") %>
+              <% if category.background_color.to_s != "" %>
+                  <li style="float: left;background-color:#<%= category.background_color  %>;">
+                    <a href="<%= symbol1s_path(:id => category.id, :no => no) %>">
+                      <%= image_tag "default-category.png", :style => "margin-bottom:7px;", :style => "height:67px;width:60px", :title => category.category_name, :class => "cat"+(category.id).to_s %>
+                      <div class="category_font"> <%= category.hebrew %></div>
+                      <div style="position: relative;top: -18px;" id="cat<%= (category.id).to_s %>"></div>
+                    </a>
+                  </li>
+              <% else %>
+                  <li style="float: left;background-color:#<%= colors[no] %>;">
+                    <a href="<%= symbol1s_path(:id => category.id, :no => no) %>">
+                      <%= image_tag "default-category.png", :style => "margin-bottom:7px;", :style => "height:67px;width:60px", :title => category.category_name, :class => "cat"+(category.id).to_s %>
+                      <div class="category_font"> <%= category.hebrew %></div>
+                      <div style="position: relative;top: -18px;" id="cat<%= (category.id).to_s %>"></div>
+                    </a>
+                  </li>
+              <% end %>
+          <% else %>
+              <% if category.background_color.to_s != "" %>
+                  <li style="position: relative;float: left;background-color:#<%= category.background_color  %>;">
+                    <a href="<%= symbol1s_path(:id => category.id, :no => no) %>">
+                      <%= image_tag category.category_image.url(:medium), :style => "margin-bottom:7px;background-color:#"+category.background_color+"", :title => category.category_name, :class => "cat"+(category.id).to_s %>
+                      <div class="category_font"><%= category.hebrew %></div>
+                      <div style="position: relative;top: -18px;" id="cat<%= (category.id).to_s %>"></div>
+                    </a>
+                  </li>
+              <% else %>
+                  <li style="float: left;background-color:#<%= colors[no] %>;position: relative;">
+                    <a href="<%= symbol1s_path(:id => category.id, :no => no) %>">
+                      <%= image_tag category.category_image.url(:medium), :style => "margin-bottom:7px;background-color:#"+colors[no].to_s+"", :title => category.category_name, :class => "cat"+(category.id).to_s %>
+                      <div class="category_font"><%= category.hebrew %></div>
+                      <div style="position: relative;top: -18px;" id="cat<%= (category.id).to_s %>"></div>
+                    </a>
+                  </li>
+              <% end %>
+          <% end %>
+          <% no = no + 1 %>
+      <% end %>
+
+    </ul>
+  </div>
+  <div id="next2" class="nexts"><%= image_tag "next.png", :size => "35x35" %></div>
+  <div class="clearfix"></div>
+</div>
+
+<% if notice %>
+    <div class="error_msg_box"><%= notice %></div>
+<% end %>
+<%= form_tag delete_bulk_symbols_symbol1s_path, :method => 'delete' do %>
+<div class="symbol_button">
+  <% if session[:cat_id] %>
+      <span class="symbol_header">Symbols</span> <span style="padding: 10px;">Drag and Drop Symbols to Re-arrange</span>
+      <div class="symbol_upload_btn">
+        <a id="<%= session[:cat_id] %>" style="margin-right: 5%;" class="bulk_upload_btn" href="#" data-reveal-id="myModal" onclick="add_symbol()"><span> Add Symbol </span></a>
+        <%= link_to("Add Bulk Symbols", add_bulk_symbol_categories_path, :class => "bulk_upload_btn ", :style => "margin-right: 4%;") %>
+        <a class="bulk_upload_btn show_hide">Edit</a>
+      </div>
+      </div>
+  <% end %>
+
+  <div class="inner_main_content">
+    <div class="drag_div" id="sortable">
+      <% if @symbol1s %>
+          <% @symbol1s.each do |sys| %>
+              <% if sys.symbol_image.url(:medium).include?("missing") %>
+                  <!--<div class="symbol_img_list" id="no_<%= sys.id %>">-->
+                  <!--<div class="symbol_img_line">-->
+                  <!--<div>-->
+                  <!--<span>-->
+                  <!--<%#= link_to(image_tag("ola-mundo-icon.png", :class => "img_align"), new_relatedsymbol_path(:id => sys.id)) %>-->
+                  <!--</span>-->
+                  <!--<div class="symbol_font">   <%= sys.word %></div>-->
+                  <!--</div>-->
+                  <!--</div>-->
+                  <!--</div>-->
+                  <% if sys.symbol_type != "Picture" %>
+                      <div class="symbol_img_list" id="no_<%= sys.id %>">
+                            <%#= link_to (image_tag("delete1.jpg", :size => "10x10")), symbol1_path(sys), :method => :delete, :title => "Delete Symbol - #{sys.word}", :data => {:confirm => "Are You Sure?"}, :style => "float:right;margin-right:2px;", :class => "slidingDiv", :onclick => "this.show()" %>
+                            <%= check_box_tag "sys_ids[]", sys.id, false, :style => "float:right;margin-right:2px;", :class => "slidingDiv" %>
+                        <div class="symbol_img_line">
+                          <div>
+                            <span>
+                              <%= link_to(image_tag("default-symb.png", :class => "img_align"), new_relatedsymbol_path(:id => sys.id)) %>
+                            </span>
+                            <div class="symbol_font" style="z-index: 1;"> <%= best_in_place sys, :hebrew, :inner_class => "inner_class_in_place", :type => :input %> </div>
+                          </div>
+                        </div>
+                      </div>
+                  <% else %>
+                      <div class="symbol_img_list" id="no_<%= sys.id %>">
+                            <%#= link_to (image_tag("delete1.jpg", :size => "10x10")), symbol1_path(sys), :method => :delete, :title => "Delete Symbol - #{sys.word}", :data => {:confirm => "Are You Sure?"}, :style => "float:right;margin-right:2px;", :class => "slidingDiv", :onclick => "this.show()" %>
+                            <%= check_box_tag "sys_ids[]", sys.id, false, :style => "float:right;margin-right:2px;", :class => "slidingDiv" %>
+                        <div class="symbol_img_line">
+                          <div>
+                            <div style="padding:10px 10px 10px 10px;">
+                              <%= link_to(image_tag("default-symb.png", :class => "index_circular"), new_relatedsymbol_path(:id => sys.id)) %>
+                            </div>
+                            <div class="symbol_font" style="z-index: 1;"> <%= best_in_place sys, :hebrew, :inner_class => "inner_class_in_place", :type => :input %> </div>
+                          </div>
+                        </div>
+                      </div>
+                  <% end %>
+              <% else %>
+                  <% if sys.symbol_type != "Picture" %>
+                      <div class="symbol_img_list" id="no_<%= sys.id %>">
+                            <%#= link_to (image_tag("delete1.jpg", :size => "10x10")), symbol1_path(sys), :method => :delete, :title => "Delete Symbol - #{sys.word}", :data => {:confirm => "Are You Sure?"}, :style => "float:right;margin-right:2px;", :class => "slidingDiv", :onclick => "this.show()" %>
+                            <%= check_box_tag "sys_ids[]", sys.id, false, :style => "float:right;margin-right:2px;", :class => "slidingDiv" %>
+                        <div class="symbol_img_line">
+                          <div>
+                            <span>
+                              <%= link_to(image_tag(sys.symbol_image.url(:medium), :class => "img_align"), new_relatedsymbol_path(:id => sys.id)) %>
+                            </span>
+                            <div class="symbol_font" style="z-index: 1;"> <%= best_in_place sys, :hebrew, :inner_class => "inner_class_in_place", :type => :input %> </div>
+                          </div>
+                        </div>
+                      </div>
+                  <% else %>
+                      <div class="symbol_img_list" id="no_<%= sys.id %>">
+                            <%#= link_to (image_tag("delete1.jpg", :size => "10x10")), symbol1_path(sys), :method => :delete, :title => "Delete Symbol - #{sys.word}", :data => {:confirm => "Are You Sure?"}, :style => "float:right;margin-right:2px;", :class => "slidingDiv", :onclick => "this.show()" %>
+                            <%= check_box_tag "sys_ids[]", sys.id, false, :style => "float:right;margin-right:2px;", :class => "slidingDiv" %>
+                        <div class="symbol_img_line">
+                          <div>
+                            <div style="padding:10px 10px 10px 10px;">
+                              <%= link_to(image_tag(sys.symbol_image.url(:medium), :class => "index_circular"), new_relatedsymbol_path(:id => sys.id)) %>
+                            </div>
+                            <div class="symbol_font" style="z-index: 1;"> <%= best_in_place sys, :hebrew, :inner_class => "inner_class_in_place", :type => :input %> </div>
+                          </div>
+                        </div>
+                      </div>
+                  <% end %>
+              <% end %>
+
+          <% end %>
+      <% end %>
+          <%= submit_tag "Delete", :data => {:confirm => "Are You Sure?"}, :style => "margin-left: 20px; margin-top: 50px;", :class => "bulk_delete_btn slidingDiv" %>
+      <% end %>
+    </div>
+  </div>
+
+  <style type="text/css">
+          /*.slidingDiv {*/
+          /*height: 300px;*/
+          /*background-color: #99CCFF;*/
+          /*padding: 20px;*/
+          /*margin-top: 10px;*/
+          /*border-bottom: 5px solid #3399FF;*/
+          /*}*/
+
+      .show_hide {
+          display: none;
+      }
+
+  </style>
+
+  <script type="text/javascript">
+
+      $(document).ready(function () {
+
+          $(".slidingDiv").hide();
+          $(".show_hide").show();
+
+          $('.show_hide').click(function () {
+              $(".slidingDiv").slideToggle();
+          });
+
+      });
+
+
+      $("input#search").autocomplete({
+          source:'symbol1s/autoload_word.json',
+          minLength:1
+      });
+
+      $(function () {
+
+          $('#sortable').sortable({
+
+              cursor:'move',
+              stop:function (i) {
+                  $.ajax({
+                      type:"GET",
+                      url:'<%= url_for  new_home_url %>',
+                      data:$('#sortable').sortable("serialize"),
+                      success:function () {
+                          $('#sortable').sortable("serialize");
+                      }
+                  });
+
+              }
+
+          }).disableSelection();
+      });
+
+      function add_category() {
+          jQuery("#viewcontent1").css("display", "none");
+          jQuery("#viewcontent").css("display", "none");
+          jQuery("#viewcontent0").show("fast");
+          jQuery("#viewcontent0").load("/categories/new");
+          jQuery("#viewcontent0").css("display", "block");
+      }
+
+      function edit_category(id) {
+          jQuery("#viewcontent0").css("display", "none");
+          jQuery("#viewcontent1").css("display", "none");
+          jQuery("#viewcontent").show("fast");
+          jQuery("#viewcontent").load("/categories/" + id + '/edit/');
+          jQuery("#viewcontent").css("display", "block");
+      }
+
+      function add_symbol() {
+          jQuery("#viewcontent0").css("display", "none");
+          jQuery("#viewcontent").css("display", "none");
+          jQuery("#viewcontent1").show("fast");
+          jQuery("#viewcontent1").load("/symbol1s/new");
+          jQuery("#viewcontent1").css("display", "block");
+      }
+
+      $(function () {
+          $('#foo2').carouFredSel({
+              align:"false",
+              cookie:true,
+              height:80,
+              width:"variable",
+              infinite:false,
+              circular:false,
+              auto:false,
+              pagination:false,
+              mousewheel:true,
+              onWindowResize:"debounce",
+              swipe:{
+                  onMouse:true,
+                  onTouch:true
+              },
+              prev:{
+                  button:'#prev2'
+//                  onEnd:function (data) {
+//                      $("#prev2").css("display", "none");
+//                      $("#next2").css("display", "block");
+//                  }
+              },
+              next:{
+                  button:'#next2'
+//                  onEnd:function (data) {
+//                      $("#prev2").css("display", "block");
+//                      $("#next2").css("display", "none");
+//                  }
+
+              }
+
+          });
+          $("#cat<%= session[:cat_id].to_s %>").addClass("select_cat");
+
+      });
+
+
+  </script>
+

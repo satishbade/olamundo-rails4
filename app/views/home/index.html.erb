@@ -1,0 +1,52 @@
+<br><br>
+<%if notice %>
+    <div class="error_msg_box"><%= notice %></div>
+<%end%>
+
+<% if current_user %>
+    <div class="container">
+      <div class="grid-011" style="margin-left: 28%; margin-top: 5%;">
+
+        <div class="widget widget-table">
+          <div class="widget-header">
+            <span class="icon-list"></span>
+            <h3 class="icon chart">Member</h3>
+          </div>
+          <div class="widget-content">
+            <table class="table table-bordered table-striped">
+              <thead class="table">
+              <tr>
+                <th><%= t('ui.h1.avatar') %></th>
+                <th><%= t('ui.h1.name') %></th>
+                <th><%= t('ui.h1.relation') %></th>
+                <th><%= t('ui.h1.action') %></th>
+              </tr>
+              </thead>
+
+              <% @user.each do |member| %>
+                  <tbody>
+                  <tr>
+                    <td style= "text-align: center;">
+                      <% if member.avatar.url(:small).include?("missing") %>
+                          <%=  image_tag("default-symb.png",:size => "60x60" ) %>
+                      <% else %>
+                          <%= image_tag member.avatar.url(:medium) %>
+                      <% end %>
+                    </td>
+                    <td> <%=  member.name %></td>
+                    <td> <%=  member.relationship %></td>
+                    <!-- Get strings from en.yml file. You can define these values as ui.popup_message.... -->
+                    <td style= "text-align: center;"><%=  link_to t('ui.action.edit') , edit_member_path(member)  %> &nbsp; <%=  link_to t('ui.action.delete'),member_path(member) ,:data => { :confirm =>  t('ui.popup.message') }, :method => :delete%></td>
+                  </tr>
+                  </tbody>
+              <% end %>
+
+            </table>
+            <%= link_to t('ui.action.add_member'), new_member_path , :class => "buttonstyle_orange", :style => "float: right; margin: 10px 10px 10px 10px;"%>
+          </div>
+        </div>
+      </div>
+    </div>
+<% else %>
+    <div class="olamundo_image"></div>
+<% end %>

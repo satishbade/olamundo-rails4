@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= t('ui.h1.title') %></title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application", "rails.validations", "rails.validations.custom"%>
+  <%= csrf_meta_tags %>
+</head>
+<%= render :partial => "layouts/header"%>
+
+  <%= yield %>
+</div>
+<%= render :partial => "layouts/footer"%>
+</html>
+

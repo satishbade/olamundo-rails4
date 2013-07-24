@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Symbol1:</b>
+  <%= @relatedsymbol.symbol1_id %>
+</p>
+
+<p>
+  <b>Symbol text:</b>
+  <%= @relatedsymbol.symbol_text %>
+</p>
+
+
+<%= link_to 'Edit', edit_relatedsymbol_path(@relatedsymbol) %> |
+<%= link_to 'Back', relatedsymbols_path %>

@@ -1,0 +1,64 @@
+<form accept-charset="UTF-8" action="/categories" id="editionselect" method="get">
+
+<div class="main_content" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">  <br/>
+  <b class="drop-down"> <%=  t('ui.h1.category') %>  </b>
+  <% @category_names = ["Core words"," Places","Outdoor","People","Home"] %>
+  <%=  link_to t('ui.h1.add_category') , new_category_path , :class => "drop-down" %> <br/>
+  <span class="drop-down" style="margin-right: 40px; margin-top: 20px;">
+      <select name="category"  onchange="$('#editionselect').submit()" style="height: 30px; margin-top: 11px;" >
+           <%category.each do |key|%>
+            <% if @category_name == key.category_name %>
+                <option style="background-color:#888888" selected="selected"><%= key.category_name%></option>
+                <% else %>
+                <option style="background-color:#888888"><%= key.category_name%></option>
+            <% end %>
+
+      <%end%>
+      </select>
+        <% @category = Category.find_by_category_name(@category_name) %>
+        <%=  image_tag @category.category_image.url(:medium) ,:style=>"background-color:#000000; width:40px; height:30px; position:absolute; margin-right:50px; margin-top: 11px;" %>
+  </span>  &nbsp;  &nbsp; &nbsp; &nbsp;
+
+  <%=  link_to t('ui.h1.edit_category'), edit_category_path(@category) %> &nbsp;&nbsp;&nbsp;&nbsp;
+  <%=  link_to t('ui.h1.show_category'), category_path(@category) %>
+
+
+<br/>
+
+
+<div class="inner_main_content">
+  <table>
+    <tr>
+
+      <td><%=  link_to "Add Symbol" , new_symbol1_path(:category_name => @category_name), :class => "link_float" %> &nbsp; &nbsp;&nbsp;&nbsp;</td>
+      <td><%=  paginate @symbol1s %></td>
+    </tr>
+  </table>
+
+  <% counter = 0 %>
+
+  <table border="1px">
+    <tr>
+
+      </tr>
+    <% @symbol1s.each do |symbol| %>
+    <% if counter % 5 == 0 %>
+        <% if counter > 0 %>
+                </tr>
+         <% end %>
+        <tr>
+
+                <td><%=  image_tag symbol.symbol_image.url(:medium) %> <br/> <%=  symbol.word %> </td>
+          <% counter = counter + 1 %>
+
+    <%  else %>
+        <td>
+            <%=  image_tag symbol.symbol_image.url(:medium) %> <br/> <%=  symbol.word %>
+          <% counter = counter + 1 %>
+        </td>
+    <% end %>
+   <% end %>
+  </table>  <br/>
+</div> <br/>
+</div>
+  </form>

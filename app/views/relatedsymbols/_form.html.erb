@@ -1,0 +1,123 @@
+<br><br>
+<% if notice %>
+    <div class="error_msg_box"><%= notice %></div>
+<% end %>
+<script>
+function add_related_symbol(id) {
+
+jQuery("#viewcontent").load("/relatedsymbols/add_related_symbol/?id="+id);
+    jQuery("#viewcontent").css("display", "block");
+
+}
+function load_edit(id) {
+    $("#load").css("display", "block");
+    jQuery("#load").load("/symbol1s/"+id+'/edit');
+    $("#edit").css("display", "none");
+}
+
+function load_related_symbol_edit(id){
+    $("#edit").css("display", "block");
+    $("#load").css("display", "block");
+    jQuery("#load").load("/relatedsymbols/"+id+'/edit');
+    $(".related_symbol_edit"+id+"").css("display", "none");
+
+}
+</script>
+
+<div id="myModal" class="reveal-modal">
+  <div class="close-reveal-modal">
+    <a class="popup_a">&#215;</a>
+  </div>
+  <div id="viewcontent"></div>
+</div>
+
+<div class="container" xmlns="http://www.w3.org/1999/html">
+  <div class="grid-12" style="margin-left: 28%; margin-top: 5%;">
+    <div class="widget">
+      <div class="widget-header">
+        <span class="icon-article"></span>
+        <h3>Add Related Symbol</h3>
+        <div style="float: right;padding:0px 25px 10px 0;">
+          <%#= link_to t('ui.action.back'), symbol1s_path(:id => session[:cat_id]), :class => "buttonstyle_orange_small" %>
+          <%#= link_to t('ui.action.back'), :back, :class => "buttonstyle_orange_small" %>
+
+          <%= link_to t('ui.action.back'), symbol1s_path, :class => "buttonstyle_orange_small" %>
+
+        </div>
+      </div>
+
+      <div style="min-width: 70%;">
+      <div style="width: 95%;margin-left: auto;margin-right: auto;display: block;padding-top: 50px;;">
+        <% @symbol1 = Symbol1.find(params[:id]) %>
+          <div style="float: left;width: auto;text-align: center;">
+            <% if Symbol1.find(params[:id]).symbol_image.url(:medium).include?("missing") %>
+                <%= image_tag("default-symb.png", :size => "80x80") %> <br/>
+            <% else %>
+                <% if @symbol1.symbol_type == "Picture" %>
+                    <%=image_tag Symbol1.find(params[:id]).symbol_image.url(:medium) ,:class => "search_edit_circular" %><br/>
+                <% else %>
+                    <%= image_tag Symbol1.find(params[:id]).symbol_image.url(:medium), :size => "80x80" %><br/>
+                <% end %>
+            <% end %>
+            <span style="text-align: center;" class="cat_name_font"> <%= Symbol1.find(params[:id]).word %> </span>
+          </div>
+        <div style="float: left;width: auto;text-align: left;padding-left: 30px;">
+          <%= link_to (image_tag("delete1.jpg", :size => "25x25")), symbol1_path(@symbol), :method => :delete, :title => "Delete Symbol", :data => {:confirm => "Are You Sure?"} %><br/><br/>
+          <a href="#" id="edit" onclick="load_edit( <%= params[:id] %>)" ><%= image_tag "edit.jpg", :size => "25x25", :title => "Edit Symbol" %></a>
+        </div>
+        <div style="float: right;width: auto;text-align: left;margin-left: auto;margin-right: auto;display: none;background-color:  #f4f3f0;" id="load" >
+        </div>
+      </div>
+
+      <div class="related_sym_head">
+        <div style="width: auto;float: left;">
+           <span class="related_title">
+                Related Symbol
+           </span>
+        </div>
+        <div style="width:50%;height: auto;text-align: right;float: right;">
+          <a href="#" data-reveal-id="myModal" type="button" onclick="add_related_symbol( <%= params[:id] %>)" class="buttonstyle_orange"> Add Related Symbol</a>
+        </div>
+      </div>
+      <div class = "related_images">
+        <% if @symbol.relatedsymbols.count > 0 %>
+            <% @related_symbols.each do |symbol| %>
+
+                <% if symbol.symbol_image.url(:medium).include?("missing") %>
+                    <div class="related_symbol_img_list">
+                      <div  >
+                     <span >
+                    <%= image_tag("default-symb.png", :size => "80x80") %>
+                     </span>
+                        <div class="symbol_font" style="z-index: 1;"> <%= best_in_place symbol, :symbol_text, :inner_class => "inner_class_in_place" %> </div>
+                      </div>
+                    </div>
+                    <div style="float: left;width: auto;text-align: left;position: relative;margin-left: -8px;">
+                    <span>
+                      <%= link_to (image_tag("delete1.jpg", :size => "18x18")), relatedsymbol_path(symbol), method: :delete, data: {confirm: 'Are you sure?'} %> <br/><br>
+                      <a href="#" class="related_symbol_edit<%=symbol.id %>" onclick="load_related_symbol_edit( <%=symbol.id %>)" ><%= image_tag "edit.jpg", :size => "18x18", :title => "Edit Symbol" %> </a>
+                    </span>
+                    </div>
+                <% else %>
+                    <div class="related_symbol_img_list">
+                    <div>
+                     <span >
+                     <%= image_tag symbol.symbol_image.url(:medium), :size => "80x80" %>
+                     </span>
+                        <div class="symbol_font" style="z-index: 1;"> <%= best_in_place symbol, :symbol_text, :inner_class => "inner_class_in_place" %> </div>
+                      </div>
+                    </div>
+                    <div style="float: left;width: auto;text-align: left;position: relative;margin-left: -8px;">
+                    <span>
+                      <%= link_to (image_tag("delete1.jpg", :size => "18x18")), relatedsymbol_path(symbol), method: :delete, :title => "Delete Related Symbol", data: {confirm: 'Are you sure?'} %><br/><br>
+                      <a href="#" class="related_symbol_edit<%=symbol.id %>" onclick="load_related_symbol_edit( <%= symbol.id %>)" ><%= image_tag "edit.jpg", :size => "18x18", :title => "Edit Symbol" %></a>
+                    </span>
+                    </div>
+                <% end %>
+            <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

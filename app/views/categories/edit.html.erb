@@ -1,0 +1,98 @@
+<div class="container pop_align">
+  <div class="grid-09"  >
+    <%= form_for(@category ,:html => {:multipart => true}) do |f|  %>
+        <div class="widget">
+          <div class="widget-header" style="padding-left:5%;">
+            <h3>Edit Category</h3>
+          </div>
+          <div class="widget-content">
+            <div class="form-box-wrapper_login">
+              <div class="form-box">
+                  <div style="float: left;text-align: left;width:auto;padding-top: 10px;position: relative;">
+                    <% if @category.category_image.url(:medium).include?("missing") %>
+                        <%= image_tag("default-symb.png", :size => "80x80") %>
+                    <%else%>
+                        <% if @category.background_color.to_s != "" %>
+                            <%= image_tag(@category.category_image.url(:medium),:size => "80x80",:style => "background-color:#"+@category.background_color+"" ) %>
+                        <%else%>
+                            <%= image_tag(@category.category_image.url(:medium),:size => "80x80",:style => "background-color:#"+colors[ session[:no].to_i]+"" ) %>
+                        <%end%>
+                    <%end%>
+                  </div>
+                  <div style="float:left;text-align: left;width:auto;">
+                      <%=  link_to (image_tag("delete1.jpg",:size => "20x20")), category_path(session[:cat_id]) ,:method => :delete,:data => {:confirm =>"Are You Sure?"} %>
+                  </div>
+                <div class="cat_name_font" style="clear: left">
+                  <%=  @category.category_name %>
+                </div>
+                  <div class="field-group">
+                  <br>
+                  <table style="margin-left: 10px;padding-top: 1cm;" id="field_table">
+                    <tr>
+                      <td>
+                        <%= f.label t('ui.h1.icon') %>
+                      </td>
+                      <td>
+                        <%= f.file_field :category_image %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                       <%= f.label :category_name %>
+                      </td>
+                      <td>
+                        <%= f.text_field :category_name %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <%= f.label :background_color %>
+                      </td>
+                      <td>
+                        <%= f.text_field :background_color,:class => "Multiple" %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <%= f.label :default_skb %>
+                      </td>
+                      <td>
+                        <%= f.label "Yes" %>
+                        <%= f.radio_button :default_skb, true %>
+                        <%= f.label "No" %>
+                        <%= f.radio_button :default_skb, false %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                       <%= f.label :sequence %>:
+                      </td>
+                      <td>
+                        <select name="select_sequence" >
+                          <% @sequence_select.each do |key| %>
+                              <% if @category.sequence == key %>
+                                  <option selected="selected"><%= key %></option>
+                              <% else %>
+                                  <option><%= key %></option>
+                              <% end %>
+                          <% end %>
+                        </select>
+                      </td>
+                    <tr>
+                      <td colspan="2">
+                        <div class="actions" style="margin-left: 55%;">
+                          <%= f.submit t('ui.action.save'),:class=>"buttonstyle_orange",:onclick => "spinner_load();" %>
+                          <%= link_to t('ui.action.cancel'), :back ,:class => "buttonstyle_orange" %>
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    <% end %>
+  </div>
+</div>

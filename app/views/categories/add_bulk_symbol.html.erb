@@ -1,0 +1,78 @@
+<div class="container pop_align">
+  <div class="grid-26" style="margin-left: 28%; margin-top: 5%;">
+    <%= nested_form_for @category do |f| %>
+        <div class="widget">
+          <div class="widget-header">
+            <span class="icon-article"></span>
+
+            <h3>Add Bulk Symbol</h3>
+            <div class="bulk_back">
+            <%= link_to t('ui.action.back'), symbol1s_path(:id => session[:cat_id]), :class => "buttonstyle_orange_small" %>
+          </div>
+          </div>
+          <div class="widget-content">
+            <div class="form-box-wrapper_login">
+              <div class="form-box">
+                <div style="margin-bottom: 2%;">
+                  <% if session[:cat_id] %>
+                      <div style="float: left;text-align: left;width: auto;">
+                        <% if Category.find(session[:cat_id]).category_image.url(:medium).include?("missing") %>
+                            <%= image_tag("ola-mundo-icon.png", :size => "80x80") %><br>
+                        <%else%>
+                            <% if Category.find(session[:cat_id]).background_color.to_s != "" %>
+                                <%=  image_tag Category.find(session[:cat_id]).category_image.url(:medium),:size => "80x80",:style => "background-color:#"+Category.find(session[:cat_id]).background_color+"" %><br>
+                            <%else%>
+                                <%=  image_tag Category.find(session[:cat_id]).category_image.url(:medium),:size => "80x80",:style => "background-color:#"+colors[ session[:no].to_i]+"" %><br>
+
+                            <%end%>
+                        <%end%>
+                        <span class="cat_name_font">
+                    <%= Category.find(session[:cat_id]).category_name %>
+                    </span>
+                      </div>
+                  <% end %>
+                </div>
+                <div class="field-group">
+                  <div class="actions bulk_save" >
+                    <%= f.submit t('ui.action.save'), :class => "buttonstyle_orange", :onclick => "spinner_load();" %>
+                    <%#= link_to t('ui.action.cancel'), :back, :class => "buttonstyle_orange" %>
+                  </div>
+                    <br/> <br/><br/><br/>
+                  <%= f.fields_for :symbol1s, @category.symbol1s.last do |task_form| %>
+                      <table style="margin-left:0px;padding-top: 2%;padding-bottom: 0.5cm;" id="field_table">
+                        <tr>
+                          <td>
+                            <%= task_form.label "Icon" %>
+                          </td>
+                          <td>
+                            <%= task_form.file_field :symbol_image %>
+                          </td>
+                          <td>
+                            <%= task_form.label :symbol_type %>
+                          </td>
+                          <td>
+                            <%= task_form.select :symbol_type, ["Symbol", "Picture"] %>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <%= task_form.label "Text" %>
+                          </td>
+                          <td>
+                            <%= task_form.text_field :word %>
+                          </td>
+
+                        </tr>
+                      </table>
+                      <%#= f.link_to_remove "Remove this symbol" %>
+                  <% end %>
+                  <%= f.link_to_add "Add a symbol", :symbol1s, :class => "buttonstyle_orange", :onclick => "increment(this.id);", :style => "margin-left:15px;margin-bottom:-6cm" %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    <% end %>
+  </div>
+</div>
+</div>
