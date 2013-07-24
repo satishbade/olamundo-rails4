@@ -1,5 +1,16 @@
-class Category < ActiveRecord::Base
+class Category
+  include Mongoid::Document
+  include Mongoid::Timestamps
   #attr_accessible :category_name , :member_id , :category_image, :sequence , :image_url, :background_color, :symbol1s_attributes, :hebrew, :default_skb
+  field :category_name, type: String
+  field :member_id, type: Integer
+  field :category_image, type: String
+  field :sequence, type: Integer
+  field :image_url, type: String
+  field :background_color, type: String
+  field :symbol1s_attributes, type: String
+  field :hebrew, type: String
+  field :default_skb, type: boolean
   #has_paper_trail
 
   scope :updated_categories, lambda { |updated_date| where("updated_at >= :start_date AND updated_at <= :end_date",

@@ -1,5 +1,12 @@
-class SymbolBank < ActiveRecord::Base
+class SymbolBank
+  include Mongoid::Document
+  include Mongoid::Timestamps
   #attr_accessible :symbol_name, :image_name, :image_url, :symbol_image
+
+  field :symbol_name, type: String
+  field :image_name, type: String
+  field :image_url, type: String
+  field :symbol_image, type: String
 
   has_attached_file :symbol_image ,:styles => { :medium => ["108x108#", :png] },
                     :storage => :s3,

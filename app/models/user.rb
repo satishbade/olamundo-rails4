@@ -28,7 +28,7 @@ class User
   has_many :members    , :dependent => :destroy
 
   has_many :user_contacts
-  #has_many :contacts ,:through => :user_contacts
+  has_many :contacts ,:through => :user_contacts
   has_many :messages
 
   #accepts_nested_attributes_for :members, :reject_if => lambda { |a| a[:name].blank? }, :allow_destroy => true

@@ -1,6 +1,16 @@
-class Relatedsymbol < ActiveRecord::Base
+class Relatedsymbol
+  include Mongoid::Document
+  include Mongoid::Timestamps
   #attr_accessible :symbol1_id, :symbol_text, :symbol_image, :image_url, :sequence, :symbol_image_file_name, :hebrew
   #has_paper_trail
+
+  field :symbol1_id, type: Integer
+  field :symbol_text, type: String
+  field :symbol_image, type: String
+  field :image_url, type: String
+  field :sequence, type: String
+  field :symbol_image_file_name, type: String
+  field :hebrew, type: String
 
   scope :updated_related_symbols, lambda { |updated_date| where("updated_at >= :start_date AND updated_at <= :end_date",
                                                            {:start_date => updated_date, :end_date => Time.now}) }

@@ -41,7 +41,7 @@ class Devise::RegistrationsController < DeviseController
     puts "existing_user ::::::: #{existing_user.inspect}"
     #existing_user = User.find_by_email(resource.email)
 
-    if existing_user && existing_user.status == "Inactive"
+    if existing_user && (existing_user.where(:status => "Inactive"))
       UserMailer.verify_code(existing_user).deliver
       respond_with({:user => existing_user, :member => existing_user.members.first}, :location => verify_account_path, notice: "Please enter the verification code here which has been sent to your mail id.")
       return

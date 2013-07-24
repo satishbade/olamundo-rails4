@@ -1,4 +1,4 @@
-class Message < ActiveRecord::Base
+class Message
   include Mongoid::Document
   include Mongoid::Timestamps
    #attr_accessible :message_from, :message, :message_time, :message_to ,:user_contact_id, :read, :message_type
