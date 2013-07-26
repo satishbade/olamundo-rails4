@@ -10,11 +10,11 @@ class Member
   field :first_name, type: String
   field :last_name, type: String
 
-  belongs_to :user
-  has_many :categories
-  has_many :user_contacts
+  embedded_in :user
+  embeds_many :categories
+  embeds_many :user_contacts
   #has_many :contacts ,:through => :user_contacts
-  has_many :messages
+  embeds_many :messages
   #has_attached_file :avatar, :styles => { :medium => "60x60#" },
   #                  :storage => :s3,
   #                  :s3_credentials => "#{Rails.root}/config/s3.yml",

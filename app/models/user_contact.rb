@@ -7,9 +7,9 @@ class UserContact
   field :member_id, type: Integer
   field :communicator_id, type: Integer
 
-  belongs_to :member
-  belongs_to :contact ,:class_name => 'Member'
-  has_many :messages
+  embedded_in :member
+  embedded_in :contact ,:class_name => 'Member'
+  embeds_many :messages
 
   scope :by_contact, lambda{ |username , contact_name| where("member_id = ? AND contact_id = ?", username, contact_name)  }
 

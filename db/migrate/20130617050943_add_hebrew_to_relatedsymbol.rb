@@ -1,4 +1,4 @@
-class AddHebrewToRelatedsymbol < ActiveRecord::Migration
+class AddHebrewToRelatedsymbol < Mongoid::Migration
   def change
     add_column :relatedsymbols, :hebrew, :string
   end

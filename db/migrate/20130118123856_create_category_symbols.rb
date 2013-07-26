@@ -1,4 +1,4 @@
-class CreateCategorySymbols < ActiveRecord::Migration
+class CreateCategorySymbols < Mongoid::Migration
   def change
     create_table :category_symbols do |t|
       t.integer :category_id

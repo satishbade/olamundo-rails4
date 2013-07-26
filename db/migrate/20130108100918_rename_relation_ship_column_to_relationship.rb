@@ -1,4 +1,4 @@
-class RenameRelationShipColumnToRelationship < ActiveRecord::Migration
+class RenameRelationShipColumnToRelationship < Mongoid::Migration
   def self.up
     rename_column :members, :relation_ship, :relationship
   end

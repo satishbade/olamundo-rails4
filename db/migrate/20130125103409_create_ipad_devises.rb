@@ -1,4 +1,4 @@
-class CreateIpadDevises < ActiveRecord::Migration
+class CreateIpadDevises < Mongoid::Migration
   def change
     create_table :ipad_devises do |t|
       t.text :devise_token

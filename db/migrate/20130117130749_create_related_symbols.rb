@@ -1,4 +1,4 @@
-class CreateRelatedSymbols < ActiveRecord::Migration
+class CreateRelatedSymbols < Mongoid::Migration
   def change
     create_table :related_symbols do |t|
       t.string :symbol_text

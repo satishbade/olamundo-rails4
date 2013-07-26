@@ -1,4 +1,4 @@
-class AddAttachmentIconToRelatedSymbols < ActiveRecord::Migration
+class AddAttachmentIconToRelatedSymbols < Mongoid::Migration
   def self.up
     change_table :related_symbols do |t|
       t.has_attached_file :icon

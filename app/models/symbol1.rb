@@ -17,8 +17,8 @@ class Symbol1
   scope :updated_symbols, lambda { |updated_date| where("updated_at >= :start_date AND updated_at <= :end_date",
                                                            {:start_date => updated_date, :end_date => Time.now}) }
 
-  belongs_to :category
-  has_many :relatedsymbols , :dependent => :destroy
+  embeds_one :category
+  embeds_many :relatedsymbols , :dependent => :destroy
   accepts_nested_attributes_for :relatedsymbols, :allow_destroy => true
   has_attached_file :symbol_image ,:styles => { :medium => ["108x108#", :png] },
                     :storage => :s3,

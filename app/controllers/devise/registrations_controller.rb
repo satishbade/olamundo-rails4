@@ -35,13 +35,16 @@ class Devise::RegistrationsController < DeviseController
 
   def create
     build_resource
+    #puts "params -- resource -- email:::::::: #{params[:resource][:email]}"
+    existing_user = User.where(:email => resource.email).first
+    #existing_user = User.first{({:conditions => ({:email => resource.email})})}
     puts "resource -- email:::::::: #{resource.email}"
-
-    existing_user = User.where(:email => resource.email)
+    puts "resource -- params -- email:::::::: #{params[:user][:email]}"
     puts "existing_user ::::::: #{existing_user.inspect}"
     #existing_user = User.find_by_email(resource.email)
 
-    if existing_user && (existing_user.where(:status => "Inactive"))
+    #if existing_user && (existing_user.where(:status => "Inactive"))
+    if existing_user && existing_user.status == "Inactive"
       UserMailer.verify_code(existing_user).deliver
       respond_with({:user => existing_user, :member => existing_user.members.first}, :location => verify_account_path, notice: "Please enter the verification code here which has been sent to your mail id.")
       return
@@ -51,6 +54,14 @@ class Devise::RegistrationsController < DeviseController
     code = rand(1000..9999)
     resource.verification_code = code
     resource.status = "Inactive"
+    resource.email = params[:user][:email]
+    #resource.password =  params[:user][:password]
+    puts "params[:user][:password] :::: #{params[:user][:password]}"
+    puts "resource.password :::: #{resource.password}"
+    resource[:password] =  params[:user][:password]
+    #resource[:password_confirmation] =  params[:user][:password]
+
+    puts "resource :::::: #{resource.inspect}"
     if resource.save
       puts "resource.email::::#{resource.email.inspect}"
       UserMailer.verify_code(resource).deliver

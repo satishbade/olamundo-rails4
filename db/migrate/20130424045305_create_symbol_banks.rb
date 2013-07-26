@@ -1,4 +1,4 @@
-class CreateSymbolBanks < ActiveRecord::Migration
+class CreateSymbolBanks < Mongoid::Migration
   def change
     create_table :symbol_banks do |t|
 

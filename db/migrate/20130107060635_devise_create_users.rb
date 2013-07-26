@@ -1,4 +1,4 @@
-class DeviseCreateUsers < ActiveRecord::Migration
+class DeviseCreateUsers < Mongoid::Migration
   def change
     create_table(:users) do |t|
       ## Database authenticatable

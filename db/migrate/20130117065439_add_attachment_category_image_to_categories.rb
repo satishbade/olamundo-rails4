@@ -1,4 +1,4 @@
-class AddAttachmentCategoryImageToCategories < ActiveRecord::Migration
+class AddAttachmentCategoryImageToCategories < Mongoid::Migration
   def self.up
     change_table :categories do |t|
       t.has_attached_file :category_image

@@ -1,4 +1,4 @@
-class CreateUserContacts < ActiveRecord::Migration
+class CreateUserContacts < Mongoid::Migration
   def change
     create_table :user_contacts do |t|
       t.integer :contact_id

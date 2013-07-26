@@ -16,8 +16,8 @@ class Category
   scope :updated_categories, lambda { |updated_date| where("updated_at >= :start_date AND updated_at <= :end_date",
                                                            {:start_date => updated_date, :end_date => Time.now}) }
 
-  belongs_to :member
-  has_many :symbol1s, :dependent => :destroy
+  embeds_one :member
+  embeds_many :symbol1s, :dependent => :destroy
   has_attached_file :category_image,:styles => { :medium => ["60x60#", :png] },
                     :storage => :s3,
                     :s3_credentials => "#{Rails.root}/config/s3.yml",

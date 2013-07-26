@@ -20,16 +20,19 @@ class User
   #validates :password, :length => { :minimum =>6 } ,:message => "Password is too short"
   validates_confirmation_of :password #,:message=>"Password doesn't match"
 
-  validates_presence_of :password, :email #:message=>"Can't be blank"
-  validates_uniqueness_of :email  #:message=>"Email exists!"
+  validates_presence_of :password, :email, :message=>"Can't be blank"
+  validates_uniqueness_of :email,  :message=>"Email exists!"
   # Setup accessible (or protected) attributes for your model
   #attr_accessible :email, :password, :password_confirmation, :remember_me,:members_attributes, :verification_code, :status
   # attr_accessible :title, :body
-  has_many :members    , :dependent => :destroy
-
-  has_many :user_contacts
-  has_many :contacts ,:through => :user_contacts
-  has_many :messages
+  #---------------need to change the below line------------------------#
+  embeds_many :members    #, :dependent => :destroy
+  #---------------------------------------#
+  embeds_many :user_contacts
+  #---------------need to change the below line------------------------#
+  #embeds_many :contacts ,:inverse_of => :user_contacts
+  #---------------------------------------#
+  embeds_many :messages
 
   #accepts_nested_attributes_for :members, :reject_if => lambda { |a| a[:name].blank? }, :allow_destroy => true
   accepts_nested_attributes_for :members, :allow_destroy => true

@@ -1,4 +1,4 @@
-class RemoveUserIdFromUserContact < ActiveRecord::Migration
+class RemoveUserIdFromUserContact < Mongoid::Migration
   def up
     remove_column :user_contacts, :user_id
   end

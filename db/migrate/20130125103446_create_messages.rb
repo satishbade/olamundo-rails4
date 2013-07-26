@@ -1,4 +1,4 @@
-class CreateMessages < ActiveRecord::Migration
+class CreateMessages < Mongoid::Migration
   def change
     create_table :messages do |t|
       t.string :message_from

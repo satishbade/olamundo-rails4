@@ -15,7 +15,7 @@ class Relatedsymbol
   scope :updated_related_symbols, lambda { |updated_date| where("updated_at >= :start_date AND updated_at <= :end_date",
                                                            {:start_date => updated_date, :end_date => Time.now}) }
 
-  belongs_to :symbol1
+  embeds_many :symbol1
   has_attached_file :symbol_image ,:styles => { :medium => ["108x108#", :png] },
                     :storage => :s3,
                     :s3_credentials => "#{Rails.root}/config/s3.yml",
